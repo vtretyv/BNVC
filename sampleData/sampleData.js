@@ -320,7 +320,7 @@ let massagedDataOP = [
     }
 ]
 
-let rawDataYelp = {
+let massagedDataYelp = {
     "businesses": [
         {
             "id": "fog-harbor-fish-house-san-francisco-2",
@@ -520,7 +520,7 @@ let rawDataYelp = {
 }
 
 
-let massagedDataYelp = [
+let rawDataYelp = [
         {
             "id": "fog-harbor-fish-house-san-francisco-2",
             "name": "Fog Harbor Fish House",
