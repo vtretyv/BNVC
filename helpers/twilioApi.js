@@ -1,6 +1,6 @@
 //Dependencies
 const axios = require('axios');
-const config = require('config.js');
+// const config = require('config.js');
 const Promise = require('bluebird');
 
 const accountSid ='Account Number would go here';

@@ -1,6 +1,6 @@
 //Dependencies
 const axios = require('axios');
-const config = require('config.js');
+// const config = require('config.js');
 const Promise = require('bluebird');
 
 //Request format http://opentable.herokuapp.com/api/{endpoint}?{parameter}
@@ -14,10 +14,12 @@ const Promise = require('bluebird');
 //Use this to make GET reqeusts to the URL https://api.yelp.com/v3/businesses/search?location=San+Francisco&term=restaurants
 //
 
-let access = config.YELP_ACCESS_TOKEN;
+// let access = config.YELP_ACCESS_TOKEN;
 let yelpHeaders = {
-    authorization: `Bearer ${access}`
+    // authorization: `Bearer ${access}`
+    authorization:''
 }
+
 let getRestaurantsSF = ()=> {
     return axios.get('https://api.yelp.com/v3/businesses/search?location=San+Francisco&term=restaurants', yelpHeaders);
 }
@@ -25,7 +27,7 @@ let getRestaurantsSF = ()=> {
 let getRestaurantsCity = (city)=> {
     let cityArr = city.split(' ');
     let parsedCity = cityArr.join('+');
-    return axios.get(`https://api.yelp.com/v3/businesses/search?location=${parsedCity}&term=restaurants`), yelpHeaders);
+    return axios.get(`https://api.yelp.com/v3/businesses/search?location=${parsedCity}&term=restaurants`, yelpHeaders);
 }
 module.exports = {
     getRestaurantsSF:getRestaurantsSF,
