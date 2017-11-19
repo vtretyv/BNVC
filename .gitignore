@@ -32,3 +32,6 @@ client/dist/bundle.js
 
 # Add DS store to git ignore
 .DS_Store
+
+# Holder for credentials
+config.js
