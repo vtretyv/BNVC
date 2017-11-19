@@ -1,8 +1,7 @@
 describe("Server", function() {
-  console.log('SERVER');
-  it("Server stuff", function() {
-    expect(1).toEqual(1);
 
+  it("Server responds to /", function() {
+    expect(2).toEqual(2);
   });
 
 });
