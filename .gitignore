@@ -26,3 +26,9 @@ build/
 # see https://npmjs.org/doc/faq.html#Should-I-check-my-node_modules-folder-into-git
 node_modules/
 bower_components/
+
+# Add bundle.js to git ignore
+client/dist/bundle.js
+
+# Add DS store to git ignore
+.DS_Store
