@@ -1,6 +1,6 @@
 {
-  "name": "",
-  "version": "",
+  "name": "table-open",
+  "version": " ",
   "description": "",
   "author": "",
   "license": "",
@@ -26,7 +26,8 @@
     "react": "^0.14.9",
     "react-dom": "^0.14.9",
     "request": "^2.83.0",
-    "webpack": "^3.8.1"
+    "webpack": "^3.8.1",
+    "pg": "^7.4.0"
   },
   "devDependencies": {
     "babel-cli": "^6.7.5",
