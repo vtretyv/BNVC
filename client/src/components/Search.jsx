@@ -26,3 +26,5 @@ class Search extends React.Component {
 }
 
 export default Search;
+
+//Todo make search functional

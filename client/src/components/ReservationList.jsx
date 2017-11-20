@@ -11,6 +11,7 @@ const ReservationList = (props) =>{
             <div key={reservation.time}>
               Reservation Time:{reservation.time}<br/>
               Party Size: {reservation.people}
+              <button>Accept</button>
             </div>
           )}
           
