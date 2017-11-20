@@ -11,12 +11,8 @@
     "server": "nodemon ./server/index.js",
     "react-dev": "webpack -d --watch ",
     "test": "jasmine-node-karma spec/", 
-    // only use one of the following two commands:
-      // 'db-init-first-time' is only meant to be used once - it will create a database named "tableopen" on your local machine
-      // every time you start up this project afterwards, use the much easeier to type 'db-start' script
       "db-init-first-time": "pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start && createdb tableopen && psql tableopen",
       "db-start": "pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start && psqltableopen",
-    // in case you need to shut down the database
     "db-stop": "pg_ctl -D /usr/local/var/postgres stop -s -m fast"
   },
   "dependencies": {

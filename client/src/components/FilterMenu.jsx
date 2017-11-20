@@ -13,6 +13,7 @@ class FilterMenu extends React.Component {
 
   handleChange(event) {
     this.setState({value: event.target.value});
+    event.preventDefault();
   }
 
   handleSubmit(event) {
