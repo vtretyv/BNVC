@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const PORT = 3000;
+const sampleData = require('../sampleData/sampleData.js')
 
 
 app.use(express.static(__dirname + '/../client/dist'));
@@ -12,8 +13,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/data', (req, res) => {
 	// Route for initial seeding of the client on startup
-	console.log('got it');
-	res.send();
+
+	// return dummy data for now
+	let data = sampleData.massagedDataOP;
+	
+	res.send(data);
 })
 
 
