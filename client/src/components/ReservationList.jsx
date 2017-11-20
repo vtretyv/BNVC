@@ -4,10 +4,17 @@ const ReservationList = (props) =>{
   return (
     <div>
       {props.restaurantData.map((restaurant) =>
-        <div key={restaurant.id}>
+        <ul key={restaurant.id}>
           {restaurant.name}<br/>
           <img src={restaurant.image_url}/>
-        </div>
+          {restaurant.reservations.map((reservation) =>
+            <div key={reservation.time}>
+              Reservation Time:{reservation.time}<br/>
+              Party Size: {reservation.people}
+            </div>
+          )}
+          
+        </ul>
 
       )}
     </div>
