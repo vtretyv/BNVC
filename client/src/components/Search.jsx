@@ -1,4 +1,7 @@
 import React from 'react';
+import PhoneNumber from './PhoneNumber.jsx';
+import Restaurant from './Restaurant.jsx';
+import FilterMenu from './FilterMenu.jsx';
 
 
 class Search extends React.Component {
@@ -9,24 +12,11 @@ class Search extends React.Component {
   render() {
     return (
       <div>
-        <form>
-        <label>
-           Phone Number:
-          <input type="text" name="phonenumber" />
-        </label>
-          <input type="submit" value="Submit" />
-        </form>
-        <form>
-        <label>
-           Restaurant:
-          <input type="text" name="name" />
-        </label>
-        <label>
-           City:
-          <input type="text" name="name" />
-        </label>
-          <input type="submit" value="Submit" />
-        </form>
+       <PhoneNumber/>
+        <br/>
+       <Restaurant/>
+        <br/>
+       <FilterMenu/>
       </div>
     );
   }
