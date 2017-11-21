@@ -323,51 +323,51 @@ let massagedDataOP = [
 let massagedDataYelp = {
     "businesses": [
         {
-            'id': 'fog-harbor-fish-house-san-francisco-2',
-            'name': 'Fog Harbor Fish House',
-            'image_url': 'https://s3-media1.fl.yelpcdn.com/bphoto/DemnQQ9M05jXzjD_cxF81A/o.jpg',
-            'is_closed': false,
-            'url': 'https://www.yelp.com/biz/fog-harbor-fish-house-san-francisco-2?adjust_creative=rvexlWGWfhIn-9lICYTnNA&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=rvexlWGWfhIn-9lICYTnNA',
-            'review_count': 3667,
-            'categories': [
+            "id": "fog-harbor-fish-house-san-francisco-2",
+            "name": "Fog Harbor Fish House",
+            "image_url": "https://s3-media1.fl.yelpcdn.com/bphoto/DemnQQ9M05jXzjD_cxF81A/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/fog-harbor-fish-house-san-francisco-2?adjust_creative=rvexlWGWfhIn-9lICYTnNA&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=rvexlWGWfhIn-9lICYTnNA",
+            "review_count": 3667,
+            "categories": [
                 {
-                    'alias': 'seafood',
-                    'title': 'Seafood'
+                    "alias": "seafood",
+                    "title": "Seafood"
                 },
                 {
-                    'alias': 'bars',
-                    'title': 'Bars'
+                    "alias": "bars",
+                    "title": "Bars"
                 }
             ],
-            'rating': 4,
-            'coordinates': {
-                'latitude': 37.80873,
-                'longitude': -122.410428
+            "rating": 4,
+            "coordinates": {
+                "latitude": 37.80873,
+                "longitude": -122.410428
             },
-            'transactions': [],
-            'price': '$$',
-            'location': {
-                'address1': 'Pier 39',
-                'address2': 'Ste A-202',
-                'address3': '',
-                'city': 'San Francisco',
-                'zip_code': '94133',
-                'country': 'US',
-                'state': 'CA',
-                'display_address': [
-                    'Pier 39',
-                    'Ste A-202',
-                    'San Francisco, CA 94133'
+            "transactions": [],
+            "price": "$$",
+            "location": {
+                "address1": "Pier 39",
+                "address2": "Ste A-202",
+                "address3": "",
+                "city": "San Francisco",
+                "zip_code": "94133",
+                "country": "US",
+                "state": "CA",
+                "display_address": [
+                    "Pier 39",
+                    "Ste A-202",
+                    "San Francisco, CA 94133"
                 ]
             },
-            'phone': '+14154212442',
-            'display_phone': '(415) 421-2442',
-            'distance': 5789.203322139542,
-            'reservations': [{
-                'time':'2017-11-20T19:30:00Z',
-                'people': 6},{
-                'time':'2017-11-20T20:00:00Z',
-                'people': 4}]
+            "phone": "+14154212442",
+            "display_phone": "(415) 421-2442",
+            "distance": 5789.203322139542,
+            "reservations": [{
+                "time":"2017-11-20T19:30:00Z",
+                "people": 6},{
+                "time":"2017-11-20T20:00:00Z",
+                "people": 4}]
         },
         {
             "id": "the-house-san-francisco",
