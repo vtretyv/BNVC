@@ -4,7 +4,8 @@ import Search from './components/Search.jsx';
 import sampleData from '../../sampleData/sampleData.js';
 import AvailableReservations from './components/AvailableReservations.jsx';
 import axios from 'axios';
-
+import _ from 'underscore';
+import moment from 'moment';
 //data is here
 
 class App extends React.Component {
@@ -15,12 +16,12 @@ class App extends React.Component {
         phoneNumber: '',
         restaurant: '',
         city: '',
-        timeFilter: '',
-        partyFilter: '',
-        categoryFilter: '',
-        times: ['7:00pm', '7:30pm', '8:00pm', '8:30pm', '9:00pm'],
-        partySizes: [1, 2, 3, 4,, 5, 6],
-        categories: ["Chinese", "Italian", "American", "French", "Thai"],
+        timeFilter: 'All',
+        partyFilter: 'All',
+        categoryFilter: 'All',
+        times: [],
+        partySizes: [],
+        categories: [],
         reservations: []
       }    
   }
@@ -29,16 +30,44 @@ class App extends React.Component {
     var self = this;
     axios.get('/data')
     .then( res => {
+
+      var timeData = {};
+      var partySizeData = {};
+      var categoryData = {};
+
+      // Funnels all data into a coresponding object to remove duplicates
+      // found
+      _.forEach(res.data, restaurant => {
+
+        _.forEach(restaurant.times, time => {
+          timeData[moment(time).format('LT')] = time;
+        })
+
+        _.forEach(restaurant.partySizes, size => {
+          partySizeData[size] = size
+        })
+
+        _.forEach(restaurant.categories, cat => {
+          categoryData[cat] = cat;
+        })
+
+      })
+
+      timeData = ['ALL'].concat(Object.keys(timeData));
+      partySizeData = ['ALL'].concat(Object.keys(partySizeData));
+      categoryData = ['ALL'].concat(Object.keys(categoryData));
+
+      // Sets state to 
       self.setState({
         data: res.data,
-        timeFilter: this.state.times[0],
-        partyFilter: this.state.partySizes[0],
-        categoryFilter: this.state.categories[0]
+        times: timeData,
+        partySizes: partySizeData,
+        categories: categoryData
       })
+
     }).catch( err => {
       throw err;
     })
-
   }
 
   initializeFilters(time, party, cat) {

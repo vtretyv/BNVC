@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const PORT = 3000;
 const sampleData = require('../sampleData/sampleData.js')
 const yelp = require('../helpers/yelpApi.js');
+const _ = require('underscore');
 
 
 app.use(express.static(__dirname + '/../client/dist'));
@@ -15,8 +16,23 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.get('/data', (req, res) => {
 	// Route for initial seeding of the client on startup
 
-	// return dummy data for now
-	let data = sampleData.massagedDataYelp.businesses;
+	// massages data to include all keys mentioned
+	// massages times, partysizes, and categories into on array each
+	// to be sent back to client
+	// This allows for easier parsing of the data in the filter dropdowns
+	let data = _.map(sampleData.massagedDataYelp.businesses, (res) => {
+			return output = {
+				name: res.name,
+				image_url: res.image_url,
+				reservations: res.reservations,
+				partySizes: res.reservations.map( slot => {return slot.people} ),
+				times: res.reservations.map( slot => {return slot.time} ),
+				categories: res.categories.map( slot => {return slot.title} )
+			};
+
+	});
+
+
 	
 	res.send(data);
 })
