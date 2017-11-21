@@ -1,62 +1,53 @@
 import React from 'react';
-//import PartySize from './PartySize.jsx';
-//import Category from './Category.jsx';
 
 class FilterMenu extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: 'one'};
+    this.state = {
+      value: 'one',
+      times: ['7:00pm', '7:30pm', '8:00pm', '8:30pm', '9:00pm'],
+      partySizes: ['One', 'two', 'three', 'four', 'five', 'six'],
+      categories: ["Chinese", "Italian", "American", "French", "Thai"]
+    };
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
-    event.preventDefault();
+  componentWillMount() {
+    
   }
 
-  handleSubmit(event) {
-    alert('You selected ' + this.state.value);
-    event.preventDefault();
+  componentDidMount() {
+    this.props.initializeFilters(this.state.times[0], 
+                                 this.state.partySizes[0], 
+                                 this.state.categories[0]);
   }
+
 
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-        <label>
-          Select Your Desired Time
-          <select value={this.state.value} onChange={this.handleChange}>
-            <option value="7:00pm">7:00pm</option>
-            <option value="7:30pm">7:30pm</option>
-            <option value="8:00pm">8:00pm</option>
-            <option value="8:30pm">8:30pm</option>
-            <option value="9:00pm">9:00pm</option>
-          </select>
-        </label>
-        <label>
-          Select Your Party Size
-          <select value={this.state.value} onChange={this.handleChange}>
-            <option value="one">One</option>
-            <option value="two">Two</option>
-            <option value="three">Three</option>
-            <option value="four">Four</option>
-            <option value="five">Five</option>
-          </select>
-        </label>
-        <label>
-        Select Your Food Category
-        <select value={this.state.value} onChange={this.handleChange}>
-          <option value="Chinese">Chinese</option>
-          <option value="Italian">Italian</option>
-          <option value="American">American</option>
-          <option value="French">French</option>
-          <option value="Thai">Thai</option>
+        Select Your Desired Time
+        <select onChange={this.props.onStateChange} name="timeFilter">
+          {this.state.times.map( (time, idx) => {
+            return <option key={idx} value={time}>{time}</option>
+          })}
         </select>
-        </label>
-        <input type="submit" value="Submit"/>
-        </form>
+
+        Select Your Party Size
+        <select onChange={this.props.onStateChange} name="partyFilter">
+          {this.state.partySizes.map( (size, idx) => {
+            return <option key={idx} value={size}>{size}</option>
+          })}
+        </select>
+
+        Select Your Food Category
+        <select onChange={this.props.onStateChange} name="categoryFilter">
+          {this.state.categories.map( (category, idx) => {
+            return <option key={idx} value={category}>{category}</option>
+          })}
+        </select>
+
+        <button>Submit</button>
       </div>
     );
   }
