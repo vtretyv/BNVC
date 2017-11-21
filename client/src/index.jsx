@@ -16,13 +16,11 @@ class App extends React.Component {
         phoneNumber: '',
         restaurant: '',
         city: '',
-        timeFilter: 'All',
-        partyFilter: 'All',
-        categoryFilter: 'All',
         times: [],
         partySizes: [],
         categories: [],
-        reservations: []
+        reservations: [],
+        filter: true
       }    
   }
 
@@ -70,13 +68,6 @@ class App extends React.Component {
     })
   }
 
-  initializeFilters(time, party, cat) {
-    this.setState({
-      timeFilter: time,
-      partyFilter: party,
-      categoryFilter: cat
-    })
-  }
 
   onStateChange(e) {
     this.setState({ [e.target.name]: e.target.value}, () => {
@@ -94,8 +85,17 @@ class App extends React.Component {
     // populate available restaurants
   }
 
-  onFilterSubmitClick() {
+  onFilterSubmitClick(time, party, category) {
     // filter avaiable restaurants
+    this.setState({
+      filter: !this.state.filter
+    })
+    console.log(time, party, category);
+  }
+
+  filterData() {
+    console.log('filterData');
+    return this.state.data;
   }
 
   onAcceptClick() {
@@ -119,12 +119,15 @@ class App extends React.Component {
                 timeFilter={this.state.timeFilter}
                 partyFilter={this.state.partyFilter}
                 categoryFilter={this.state.categoryFilter} 
-                initializeFilters={this.initializeFilters.bind(this)}
                 times={this.state.times}
                 partySizes={this.state.partySizes}
-                categories={this.state.categories} />
+                categories={this.state.categories} 
+                onFilterSubmitClick={this.onFilterSubmitClick.bind(this)} />
 
-        <AvailableReservations restaurantData={this.state.data}/>
+        <AvailableReservations restaurantData={this.filterData()}
+                               timeFilter={this.state.timeFilter} 
+                               partyFilter={this.state.partyFilter} 
+                               categoryFilter={this.state.categoryFilter} />
         //reservation list for phone number
       </div>
     );
