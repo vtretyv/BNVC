@@ -1,17 +1,21 @@
 import React from 'react';
 
-const PhoneNumber = (props) =>{
-  return (
-    <div>
-     <form>
-        <label>
-           Phone Number:
-          <input type="text" name="phonenumber" />
-        </label>
-          <input type="submit" value="Submit" />
-      </form> 
-    </div>
-  );
+class PhoneNumber extends React.Component {
+  constructor(props) {
+    super(props)
+
+  }
+
+  render() {
+    return(<div>
+              Phone #:<input type="text" 
+                             name="phoneNumber" 
+                             value={this.props.phoneNumber}
+                             onChange={this.props.onStateChange} />
+              <button>Submit</button>
+            </div>);
+  }
 }
+
 
 export default PhoneNumber;

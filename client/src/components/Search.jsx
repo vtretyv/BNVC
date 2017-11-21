@@ -2,7 +2,6 @@ import React from 'react';
 import PhoneNumber from './PhoneNumber.jsx';
 import Restaurant from './Restaurant.jsx';
 import FilterMenu from './FilterMenu.jsx';
-import AvailableReservations from './AvailableReservations.jsx';
 
 
 class Search extends React.Component {
@@ -13,13 +12,19 @@ class Search extends React.Component {
   render() {
     return (
       <div>
-       <PhoneNumber/>
+       <PhoneNumber onStateChange={this.props.onStateChange} 
+                    phoneNumber={this.props.phoneNumber}/>
         <br/>
-       <Restaurant/>
+       <Restaurant onStateChange={this.props.onStateChange} 
+                   restaurant={this.props.restaurant}
+                   city={this.props.city} />
         <br/>
-       <FilterMenu/>
+       <FilterMenu onStateChange={this.props.onStateChange} 
+                   initializeFilters={this.props.initializeFilters} 
+                   times={this.props.times}
+                   partySizes={this.props.partySizes}
+                   categories={this.props.categories}/>
         <br/>
-       <AvailableReservations restaurantData={this.props.restaurantData}/>
       </div>
     );
   }

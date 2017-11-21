@@ -1,21 +1,22 @@
 import React from 'react';
 
-const Restaurant = (props) =>{
-  return (
-    <div>
-     <form>
-        <label>
-           Restaurant:
-          <input type="text" name="restaurant" />
-        </label>
-        <label>
-           City:
-          <input type="text" name="city" />
-        </label>
-          <input type="submit" value="Submit" />
-      </form>
-    </div>
-  );
+class Restaurant extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (<div>
+              Restaurant:<input type="text" 
+                                name="restaurant" 
+                                onChange={this.props.onStateChange}/>
+              City:<input type="text" 
+                          name="city" 
+                          onChange={this.props.onStateChange} />
+              <button>Submit</button>
+            </div>);
+  }
 }
+
 
 export default Restaurant;
