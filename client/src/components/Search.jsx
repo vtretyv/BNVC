@@ -20,7 +20,10 @@ class Search extends React.Component {
                    city={this.props.city} />
         <br/>
        <FilterMenu onStateChange={this.props.onStateChange} 
-                   initializeFilters={this.props.initializeFilters} />
+                   initializeFilters={this.props.initializeFilters} 
+                   times={this.props.times}
+                   partySizes={this.props.partySizes}
+                   categories={this.props.categories}/>
         <br/>
       </div>
     );
