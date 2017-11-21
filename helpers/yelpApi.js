@@ -19,6 +19,8 @@ let yelpHeaders = {
     authorization:''
 }
 
+
+//returns a promise
 let getRestaurantsSF = ()=> {
     return axios.get('https://api.yelp.com/v3/businesses/search?location=San+Francisco&term=restaurants', yelpHeaders);
 }
