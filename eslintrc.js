@@ -6,11 +6,5 @@
  */
 
 module.exports = {
-  parser: 'babel-eslint',
-  extends: 'airbnb',
-  plugins: [
-    'react',
-    'jsx-ally',
-    'import'
-  ]
+  extends: './node_modules/eslint-config-hackreactor/index.js'
 };
