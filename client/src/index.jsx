@@ -3,16 +3,15 @@ import ReactDOM from 'react-dom';
 import Search from './components/Search.jsx';
 import sampleData from '../../sampleData/sampleData.js';
 import AvailableReservations from './components/AvailableReservations.jsx';
+import axios from 'axios';
 
 //data is here
-const restaurantData = sampleData.massagedDataOP;
-
 
 class App extends React.Component {
   constructor(props) {
     super(props);
       this.state = {
-        data: restaurantData,
+        data: [],
         phoneNumber: '',
         restaurant: '',
         city: '',
@@ -24,9 +23,16 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-
+    var self = this;
+    axios.get('/data')
+    .then( res => {
+      self.setState({
+        data: res.data
+      })
+    }).catch( err => {
+      throw err;
+    })
   }
-
 
   initializeFilters(time, party, cat) {
     this.setState({
@@ -57,6 +63,7 @@ class App extends React.Component {
                 initializeFilters={this.initializeFilters.bind(this)}/>
 
         <AvailableReservations restaurantData={this.state.data}/>
+        //reservation list fo phone number
       </div>
     );
   }

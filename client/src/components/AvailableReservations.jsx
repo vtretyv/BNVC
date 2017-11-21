@@ -1,5 +1,6 @@
 import React from 'react';
-import ReservationList from './ReservationList.jsx';
+// import ReservationList from './ReservationList.jsx';
+import RestaurantEntry from './RestaurantEntry.jsx';
 
 class AvailableReservations extends React.Component {
   constructor(props) {
@@ -9,7 +10,9 @@ class AvailableReservations extends React.Component {
     return (
       <div>
         Available Reservations
-        <ReservationList restaurantData={this.props.restaurantData}/>
+        {this.props.restaurantData.map( (rest, idx) => {
+          return <RestaurantEntry key={idx} restaurant={rest} />
+        })}
       </div>
     )
   }

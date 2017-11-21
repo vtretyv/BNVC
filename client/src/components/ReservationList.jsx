@@ -3,21 +3,21 @@ import React from 'react';
 const ReservationList = (props) =>{
   return (
     <div>
-      {props.restaurantData.map((restaurant) =>
-        <ul key={restaurant.id}>
-          {restaurant.name}<br/>
-          <img src={restaurant.image_url}/>
-          {restaurant.reservations.map((reservation) =>
-            <div key={reservation.time}>
-              Reservation Time:{reservation.time}<br/>
-              Party Size: {reservation.people}
-              <button>Accept</button>
-            </div>
-          )}
+      // {props.restaurantData.map((restaurant) =>
+      //   <ul key={restaurant.id}>
+      //     {restaurant.name}<br/>
+      //     <img src={restaurant.image_url}/>
+      //     {restaurant.reservations.map((reservation) =>
+      //       <div key={reservation.time}>
+      //         Reservation Time:{reservation.time}<br/>
+      //         Party Size: {reservation.people}
+      //         <button>Accept</button>
+      //       </div>
+      //     )}
           
-        </ul>
+      //   </ul>
 
-      )}
+      // )}
     </div>
   );
 }

@@ -16,7 +16,7 @@ app.get('/data', (req, res) => {
 	// Route for initial seeding of the client on startup
 
 	// return dummy data for now
-	let data = sampleData.massagedDataOP;
+	let data = sampleData.massagedDataYelp.businesses;
 	
 	res.send(data);
 })
