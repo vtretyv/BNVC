@@ -1,6 +1,6 @@
 //Dependencies
 const axios = require('axios');
-// const config = require('config.js');
+const config = require('./config.js');
 
 //Request format http://opentable.herokuapp.com/api/{endpoint}?{parameter}
 //Helper functions to export
@@ -13,22 +13,42 @@ const axios = require('axios');
 //Use this to make GET reqeusts to the URL https://api.yelp.com/v3/businesses/search?location=San+Francisco&term=restaurants
 //
 
-// let access = config.YELP_ACCESS_TOKEN;
+let access = config.YELP_ACCESS_TOKEN;
 let yelpHeaders = {
-    // authorization: `Bearer ${access}`
-    authorization:''
+    headers:{
+    Authorization: `Bearer ${access}`
+    }
 }
 
-let getRestaurantsSF = ()=> {
-    return axios.get('https://api.yelp.com/v3/businesses/search?location=San+Francisco&term=restaurants', yelpHeaders);
-}
 
-let getRestaurantsCity = (city)=> {
+
+//returns a promise
+let getRestaurantsByCity = (cityAndState = "San Francisco")=> {
+    let cityState = cityAndState.split(',');
+    let city = cityState[0];
+    let state = cityState[1];
     let cityArr = city.split(' ');
     let parsedCity = cityArr.join('+');
-    return axios.get(`https://api.yelp.com/v3/businesses/search?location=${parsedCity}&term=restaurants`, yelpHeaders);
+    let pCandS = '';    
+    if (state === undefined){
+        pCandS = parsedCity;
+    } else {
+        pCandS = `${parsedCity},+ ${state}`;
+        
+    }
+    return axios.get(`https://api.yelp.com/v3/businesses/search?location=${pCandS}&term=restaurants`, yelpHeaders);
 }
+
+let getRestrauntInCity = (RestaurantAndCity)=> {
+    let ResAndCity = RestaurantAndCity.split(',');
+    let Restaurant = ResAndCity[0];
+    let City = ResAndCity[1];
+    let cityArr = City.split(' ');
+    let parsedCity = cityArr.join('+');
+    return axios.get(`https://api.yelp.com/v3/businesses/search?location=${parsedCity}&term=${Restaurant}`, yelpHeaders);
+}
+
 module.exports = {
-    getRestaurantsSF:getRestaurantsSF,
-    getRestaurantsCity:getRestaurantsCity
+    getRestaurantsByCity:getRestaurantsByCity,
+    getRestrauntInCity:getRestrauntInCity
 }
