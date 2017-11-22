@@ -154,7 +154,9 @@ class App extends React.Component {
                 onFilterSubmitClick={this.onFilterSubmitClick.bind(this)} />
 
         <AvailableReservations restaurantData={this.filterData()} 
-                               onAcceptClick={this.onAcceptClick.bind(this)}/>
+                               onAcceptClick={this.onAcceptClick.bind(this)}
+                               time={this.state.time}
+                               party={this.state.party} />
         //reservation list for phone number
       </div>
     );

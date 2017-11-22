@@ -24,6 +24,7 @@
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "moment": "^2.19.2",
     "pg": "^7.4.0",
     "react": "^16.1.1",
     "react-dom": "^16.1.1",

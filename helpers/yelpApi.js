@@ -1,6 +1,6 @@
 //Dependencies
 const axios = require('axios');
-// const config = require('./config.js');
+const config = require('./config.js');
 
 //Request format http://opentable.herokuapp.com/api/{endpoint}?{parameter}
 //Helper functions to export
