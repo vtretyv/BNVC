@@ -1,6 +1,6 @@
 //Dependencies
 const axios = require('axios');
-const config = require('./config.js');
+// const config = require('./config.js');
 
 //Request format http://opentable.herokuapp.com/api/{endpoint}?{parameter}
 //Helper functions to export
@@ -13,10 +13,10 @@ const config = require('./config.js');
 //Use this to make GET reqeusts to the URL https://api.yelp.com/v3/businesses/search?location=San+Francisco&term=restaurants
 //
 
-let access = config.YELP_ACCESS_TOKEN;
+// let access = config.YELP_ACCESS_TOKEN;
 let yelpHeaders = {
     headers:{
-    Authorization: `Bearer ${access}`
+    // Authorization: `Bearer ${access}`
     }
 }
 
@@ -39,16 +39,15 @@ let getRestaurantsByCity = (cityAndState = "San Francisco")=> {
     return axios.get(`https://api.yelp.com/v3/businesses/search?location=${pCandS}&term=restaurants`, yelpHeaders);
 }
 
-let getRestrauntInCity = (RestaurantAndCity)=> {
-    let ResAndCity = RestaurantAndCity.split(',');
-    let Restaurant = ResAndCity[0];
-    let City = ResAndCity[1];
+let getRestaurantInCity = (Restaurant, City)=> {
     let cityArr = City.split(' ');
     let parsedCity = cityArr.join('+');
-    return axios.get(`https://api.yelp.com/v3/businesses/search?location=${parsedCity}&term=${Restaurant}`, yelpHeaders);
+    let restaurantArr = Restaurant.split(' ');
+    let parsedRes = restaurantArr.join('+');
+    return axios.get(`https://api.yelp.com/v3/businesses/search?location=${parsedCity}&term=${parsedRes}`, yelpHeaders);
 }
 
 module.exports = {
     getRestaurantsByCity:getRestaurantsByCity,
-    getRestrauntInCity:getRestrauntInCity
+    getRestaurantInCity:getRestaurantInCity
 }
