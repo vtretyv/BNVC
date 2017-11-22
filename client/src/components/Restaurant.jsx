@@ -1,19 +1,35 @@
 import React from 'react';
 
+
 class Restaurant extends React.Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      restaurant: '',
+      city: ''
+    }
+
+    this.onStateChange = this.onStateChange.bind(this);
+
+  }
+
+    onStateChange(e) {
+    this.setState({ [e.target.name]: e.target.value}, () => {
+      //console.log(this.state);
+    })
   }
 
   render() {
     return (<div>
               Restaurant:<input type="text" 
                                 name="restaurant" 
-                                onChange={this.props.onStateChange}/>
+                                onChange={this.onStateChange}/>
               City:<input type="text" 
                           name="city" 
-                          onChange={this.props.onStateChange} />
-              <button>Submit</button>
+                          onChange={this.onStateChange} />
+              <button onClick={() => { this.props.onRestaurantSubmitClick(this.state.restaurant, 
+                                                                          this.state.city)} }>Submit</button>
             </div>);
   }
 }

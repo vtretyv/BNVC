@@ -365,7 +365,7 @@ let massagedDataYelp = {
             "distance": 5789.203322139542,
             "reservations": [{
                 "time":"2017-11-20T19:30:00Z",
-                "people": 6},{
+                "people": 7},{
                 "time":"2017-11-20T20:00:00Z",
                 "people": 4}]
         },
@@ -411,7 +411,7 @@ let massagedDataYelp = {
                 "time":"2017-11-20T19:30:00Z",
                 "people": 6},{
                 "time":"2017-11-20T20:00:00Z",
-                "people": 4}]
+                "people": 3}]
         },
         {
             "id": "brendas-french-soul-food-san-francisco",
@@ -459,9 +459,9 @@ let massagedDataYelp = {
             "distance": 2885.389130953204,
             "reservations": [{
                 "time":"2017-11-20T19:30:00Z",
-                "people": 6},{
+                "people": 5},{
                 "time":"2017-11-20T20:00:00Z",
-                "people": 4}]
+                "people": 2}]
         },
         {
             "id": "hog-island-oyster-co-san-francisco",

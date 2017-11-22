@@ -4,24 +4,22 @@ import Search from './components/Search.jsx';
 import sampleData from '../../sampleData/sampleData.js';
 import AvailableReservations from './components/AvailableReservations.jsx';
 import axios from 'axios';
+import _ from 'underscore';
 
-//data is here
 
 class App extends React.Component {
   constructor(props) {
     super(props);
       this.state = {
         data: [],
-        phoneNumber: '',
-        restaurant: '',
-        city: '',
-        timeFilter: '',
-        partyFilter: '',
-        categoryFilter: '',
-        times: ['7:00pm', '7:30pm', '8:00pm', '8:30pm', '9:00pm'],
-        partySizes: [1, 2, 3, 4,, 5, 6],
-        categories: ["Chinese", "Italian", "American", "French", "Thai"],
-        reservations: []
+        times: [],
+        partySizes: [],
+        categories: [],
+        reservations: [],
+        filter: true,
+        time: 'All',
+        party: 'All',
+        category: 'All'
       }    
   }
 
@@ -29,25 +27,46 @@ class App extends React.Component {
     var self = this;
     axios.get('/data')
     .then( res => {
+
+      var timeData = {};
+      var partySizeData = {};
+      var categoryData = {};
+
+      // Funnels all data into a coresponding object to remove duplicates
+      // found
+      _.forEach(res.data, restaurant => {
+
+        _.forEach(restaurant.times, time => {
+          timeData[time] = time;
+        })
+
+        _.forEach(restaurant.partySizes, size => {
+          partySizeData[size] = size
+        })
+
+        _.forEach(restaurant.categories, cat => {
+          categoryData[cat] = cat;
+        })
+
+      })
+
+      timeData = ['All'].concat(Object.keys(timeData));
+      partySizeData = ['All'].concat(Object.keys(partySizeData));
+      categoryData = ['All'].concat(Object.keys(categoryData));
+
+      // Sets state to 
       self.setState({
         data: res.data,
-        timeFilter: this.state.times[0],
-        partyFilter: this.state.partySizes[0],
-        categoryFilter: this.state.categories[0]
+        times: timeData,
+        partySizes: partySizeData,
+        categories: categoryData
       })
+
     }).catch( err => {
       throw err;
     })
-
   }
 
-  initializeFilters(time, party, cat) {
-    this.setState({
-      timeFilter: time,
-      partyFilter: party,
-      categoryFilter: cat
-    })
-  }
 
   onStateChange(e) {
     this.setState({ [e.target.name]: e.target.value}, () => {
@@ -57,16 +76,60 @@ class App extends React.Component {
   
 
 
-  onPhoneNumberSubmitClick() {
-    //populate my reservation list
+  onPhoneNumberSubmitClick(phoneNumber) {
+    console.log(phoneNumber)
+
+    // query db for reservations with this phone number
+
   }
 
-  onRestaurantSubmitClick() {
-    // populate available restaurants
+  onRestaurantSubmitClick(restaurant, city) {
+    console.log(restaurant, city);
+
+    // use api to retrieve new data for the city or restaurant
+
   }
 
-  onFilterSubmitClick() {
+  onFilterSubmitClick(time, party, category) {
     // filter avaiable restaurants
+    this.setState({
+      time: time,
+      party: party,
+      category: category
+    })
+
+    console.log(time, party, category);
+  }
+
+  filterData() {
+    console.log(this.state.data);
+
+    // Object used to simplify the filtering process
+    // Keys are properties located on each restaurant object
+      // recieved from server
+    // Values are the search by terms provided by the user
+
+    var filters = {
+      times: this.state.time,
+      partySizes: this.state.party==='All' ? 'All' : Number(this.state.party),
+      categories: this.state.category
+    }
+
+    var filteredData = this.state.data.slice(0);
+    console.log('FILTERED DATA BEFORE ', filteredData);
+
+    _.forEach(filters, (filter, key) => {
+      console.log(filter);
+      if(filter !== 'All') {
+        filteredData = _.filter(filteredData, (restaurant) => {
+          return (restaurant[key].includes(filter));
+        })
+      }
+    });
+
+    console.log('filtered Data after', filteredData)
+    return filteredData
+
   }
 
   onAcceptClick() {
@@ -83,19 +146,15 @@ class App extends React.Component {
     return (
       <div>
         <Search restaurantData={this.state.data}
-                onStateChange={this.onStateChange.bind(this)} 
-                phoneNumber={this.state.phoneNumber} 
-                restaurant={this.state.restaurant} 
-                city={this.state.city} 
-                timeFilter={this.state.timeFilter}
-                partyFilter={this.state.partyFilter}
-                categoryFilter={this.state.categoryFilter} 
-                initializeFilters={this.initializeFilters.bind(this)}
                 times={this.state.times}
                 partySizes={this.state.partySizes}
-                categories={this.state.categories} />
+                categories={this.state.categories} 
+                onPhoneNumberSubmitClick={this.onPhoneNumberSubmitClick.bind(this)} 
+                onRestaurantSubmitClick={this.onRestaurantSubmitClick.bind(this)} 
+                onFilterSubmitClick={this.onFilterSubmitClick.bind(this)} />
 
-        <AvailableReservations restaurantData={this.state.data}/>
+        <AvailableReservations restaurantData={this.filterData()} 
+                               onAcceptClick={this.onAcceptClick.bind(this)}/>
         //reservation list for phone number
       </div>
     );
