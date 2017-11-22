@@ -1,13 +1,13 @@
 //Dependencies
 const axios = require('axios');
-const config = require('./config.js');
+// const config = require('./config.js');
 // const Promise = require('bluebird');
 
 const accountSid ='Account Number would go here';
 const authToken = 'Would be taken from config';
 
 // const client = require('twilio')(accountSid, authToken);
-const client = require('twilio')(config.TWILIO_ACCOUNT_SID, config.TWILIO_AUTH_TOKEN);
+// const client = require('twilio')(config.TWILIO_ACCOUNT_SID, config.TWILIO_AUTH_TOKEN);
 
 
 //Request format: https://{AccountSid}:{AuthToken}@api.twilio.com/2010-04-01/Accounts
