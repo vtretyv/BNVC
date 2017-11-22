@@ -1,6 +1,7 @@
 //Dummy Data
 
-let massagedDataYelp = [
+let massagedDataYelp = {
+    "businesses": [
         {
             "id": "fog-harbor-fish-house-san-francisco-2",
             "name": "Fog Harbor Fish House",
@@ -44,7 +45,7 @@ let massagedDataYelp = [
             "distance": 5789.203322139542,
             "reservations": [{
                 "time":"2017-11-20T19:30:00Z",
-                "people": 7},{
+                "people": 6},{
                 "time":"2017-11-20T20:00:00Z",
                 "people": 4}]
         },
@@ -90,7 +91,7 @@ let massagedDataYelp = [
                 "time":"2017-11-20T19:30:00Z",
                 "people": 6},{
                 "time":"2017-11-20T20:00:00Z",
-                "people": 3}]
+                "people": 4}]
         },
         {
             "id": "brendas-french-soul-food-san-francisco",
@@ -138,9 +139,9 @@ let massagedDataYelp = [
             "distance": 2885.389130953204,
             "reservations": [{
                 "time":"2017-11-20T19:30:00Z",
-                "people": 5},{
+                "people": 6},{
                 "time":"2017-11-20T20:00:00Z",
-                "people": 2}]
+                "people": 4}]
         },
         {
             "id": "hog-island-oyster-co-san-francisco",
@@ -196,10 +197,10 @@ let massagedDataYelp = [
                 "people": 4}]
         }
     ]
+}
 
 
-let rawDataYelp = {
-    "businesses": [
+let rawDataYelp = [
         {
             "id": "fog-harbor-fish-house-san-francisco-2",
             "name": "Fog Harbor Fish House",
@@ -376,7 +377,7 @@ let rawDataYelp = {
             "distance": 5428.156706690052
         }
     ]
-}
+
 
 
 

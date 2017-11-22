@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const PORT = 3000;
 const sampleData = require('../sampleData/sampleData.js')
 const yelp = require('../helpers/yelpApi.js');
+const twilio = require('../helpers/twilioApi.js');
 const _ = require('underscore');
 const moment = require('moment');
 
@@ -34,7 +35,21 @@ app.get('/data', (req, res) => {
 
 	});
 
+	yelp.getRestaurantsByCity().then((results)=>{
+		console.log('results.data', results.data);
+		//Do the res.json here once you have the data in the way you want to send it
+	}).catch(()=>{
+		console.log('error');
+	})
 
+	//I put the functions twilio functions below. Once we figure out when we want to use them we can put them in the proper route.
+	// twilio.sendAcceptMsg().then(()=>{
+	// 	console.log('accept message sent');
+	// });
+
+	// twilio.sendCancelMsg().then(()=>{
+	// 	console.log('cancel message sent');
+	// });
 	
 	res.send(data);
 })
