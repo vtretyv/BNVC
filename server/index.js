@@ -35,12 +35,12 @@ app.get('/data', (req, res) => {
 
 	});
 
-	yelp.getRestaurantsByCity().then((results)=>{
-		console.log('results.data', results.data);
-		//Do the res.json here once you have the data in the way you want to send it
-	}).catch(()=>{
-		console.log('error');
-	})
+	// yelp.getRestaurantsByCity().then((results)=>{
+	// 	console.log('results.data', results.data);
+	// 	//Do the res.json here once you have the data in the way you want to send it
+	// }).catch(()=>{
+	// 	console.log('error');
+	// })
 
 	//I put the functions twilio functions below. Once we figure out when we want to use them we can put them in the proper route.
 	// twilio.sendAcceptMsg().then(()=>{

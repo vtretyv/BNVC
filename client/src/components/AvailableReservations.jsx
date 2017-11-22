@@ -11,7 +11,10 @@ class AvailableReservations extends React.Component {
       <div>
         Available Reservations
         {this.props.restaurantData.map( (rest, idx) => {
-          return <RestaurantEntry key={idx} restaurant={rest} />
+          return <RestaurantEntry key={idx} 
+                                  restaurant={rest} 
+                                  time={this.props.time}
+                                  party={this.props.party}/>
         })}
       </div>
     )

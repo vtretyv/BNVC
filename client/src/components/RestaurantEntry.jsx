@@ -12,7 +12,10 @@ class RestaurantEntry extends React.Component {
 	          <div>{this.props.restaurant.name}</div>
 	          <img width="210px" height="170px" src={this.props.restaurant.image_url}/>
 	          {this.props.restaurant.reservations.map( (res, idx) => {
-	          		return <ReservationEntry key={idx} reservation={res}/>
+	          		return <ReservationEntry key={idx} 
+	          																											reservation={res}
+	          																											time={this.props.time}
+	          																											party={this.props.party}/>
 	          })} 
         		</div>);
 	}
