@@ -12,7 +12,7 @@
     "react-dev": "webpack -d --watch ",
     "test": "jasmine-node-karma spec/",
     "db-init-first-time": "pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start && createdb tableopen && psql tableopen",
-    "db-start": "pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start && psqltableopen",
+    "db-start": "pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start && psql tableopen",
     "db-stop": "pg_ctl -D /usr/local/var/postgres stop -s -m fast"
   },
   "dependencies": {
