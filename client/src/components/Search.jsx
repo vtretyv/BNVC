@@ -12,12 +12,9 @@ class Search extends React.Component {
   render() {
     return (
       <div>
-       <PhoneNumber onStateChange={this.props.onStateChange} 
-                    phoneNumber={this.props.phoneNumber}/>
+       <PhoneNumber onPhoneNumberSubmitClick={this.props.onPhoneNumberSubmitClick}/>
         <br/>
-       <Restaurant onStateChange={this.props.onStateChange} 
-                   restaurant={this.props.restaurant}
-                   city={this.props.city} />
+       <Restaurant onRestaurantSubmitClick={this.props.onRestaurantSubmitClick} />
         <br/>
        <FilterMenu times={this.props.times}
                    partySizes={this.props.partySizes}

@@ -5,22 +5,21 @@ import sampleData from '../../sampleData/sampleData.js';
 import AvailableReservations from './components/AvailableReservations.jsx';
 import axios from 'axios';
 import _ from 'underscore';
-import moment from 'moment';
-//data is here
+
 
 class App extends React.Component {
   constructor(props) {
     super(props);
       this.state = {
         data: [],
-        phoneNumber: '',
-        restaurant: '',
-        city: '',
         times: [],
         partySizes: [],
         categories: [],
         reservations: [],
-        filter: true
+        filter: true,
+        time: 'All',
+        party: 'All',
+        category: 'All'
       }    
   }
 
@@ -38,7 +37,7 @@ class App extends React.Component {
       _.forEach(res.data, restaurant => {
 
         _.forEach(restaurant.times, time => {
-          timeData[moment(time).format('LT')] = time;
+          timeData[time] = time;
         })
 
         _.forEach(restaurant.partySizes, size => {
@@ -51,9 +50,9 @@ class App extends React.Component {
 
       })
 
-      timeData = ['ALL'].concat(Object.keys(timeData));
-      partySizeData = ['ALL'].concat(Object.keys(partySizeData));
-      categoryData = ['ALL'].concat(Object.keys(categoryData));
+      timeData = ['All'].concat(Object.keys(timeData));
+      partySizeData = ['All'].concat(Object.keys(partySizeData));
+      categoryData = ['All'].concat(Object.keys(categoryData));
 
       // Sets state to 
       self.setState({
@@ -77,25 +76,60 @@ class App extends React.Component {
   
 
 
-  onPhoneNumberSubmitClick() {
-    //populate my reservation list
+  onPhoneNumberSubmitClick(phoneNumber) {
+    console.log(phoneNumber)
+
+    // query db for reservations with this phone number
+
   }
 
-  onRestaurantSubmitClick() {
-    // populate available restaurants
+  onRestaurantSubmitClick(restaurant, city) {
+    console.log(restaurant, city);
+
+    // use api to retrieve new data for the city or restaurant
+
   }
 
   onFilterSubmitClick(time, party, category) {
     // filter avaiable restaurants
     this.setState({
-      filter: !this.state.filter
+      time: time,
+      party: party,
+      category: category
     })
+
     console.log(time, party, category);
   }
 
   filterData() {
-    console.log('filterData');
-    return this.state.data;
+    console.log(this.state.data);
+
+    // Object used to simplify the filtering process
+    // Keys are properties located on each restaurant object
+      // recieved from server
+    // Values are the search by terms provided by the user
+
+    var filters = {
+      times: this.state.time,
+      partySizes: this.state.party==='All' ? 'All' : Number(this.state.party),
+      categories: this.state.category
+    }
+
+    var filteredData = this.state.data.slice(0);
+    console.log('FILTERED DATA BEFORE ', filteredData);
+
+    _.forEach(filters, (filter, key) => {
+      console.log(filter);
+      if(filter !== 'All') {
+        filteredData = _.filter(filteredData, (restaurant) => {
+          return (restaurant[key].includes(filter));
+        })
+      }
+    });
+
+    console.log('filtered Data after', filteredData)
+    return filteredData
+
   }
 
   onAcceptClick() {
@@ -112,22 +146,15 @@ class App extends React.Component {
     return (
       <div>
         <Search restaurantData={this.state.data}
-                onStateChange={this.onStateChange.bind(this)} 
-                phoneNumber={this.state.phoneNumber} 
-                restaurant={this.state.restaurant} 
-                city={this.state.city} 
-                timeFilter={this.state.timeFilter}
-                partyFilter={this.state.partyFilter}
-                categoryFilter={this.state.categoryFilter} 
                 times={this.state.times}
                 partySizes={this.state.partySizes}
                 categories={this.state.categories} 
+                onPhoneNumberSubmitClick={this.onPhoneNumberSubmitClick.bind(this)} 
+                onRestaurantSubmitClick={this.onRestaurantSubmitClick.bind(this)} 
                 onFilterSubmitClick={this.onFilterSubmitClick.bind(this)} />
 
-        <AvailableReservations restaurantData={this.filterData()}
-                               timeFilter={this.state.timeFilter} 
-                               partyFilter={this.state.partyFilter} 
-                               categoryFilter={this.state.categoryFilter} />
+        <AvailableReservations restaurantData={this.filterData()} 
+                               onAcceptClick={this.onAcceptClick.bind(this)}/>
         //reservation list for phone number
       </div>
     );

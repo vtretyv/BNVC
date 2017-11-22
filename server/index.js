@@ -5,6 +5,7 @@ const PORT = 3000;
 const sampleData = require('../sampleData/sampleData.js')
 const yelp = require('../helpers/yelpApi.js');
 const _ = require('underscore');
+const moment = require('moment');
 
 
 app.use(express.static(__dirname + '/../client/dist'));
@@ -21,12 +22,13 @@ app.get('/data', (req, res) => {
 	// to be sent back to client
 	// This allows for easier parsing of the data in the filter dropdowns
 	let data = _.map(sampleData.massagedDataYelp.businesses, (res) => {
+		
 			return output = {
 				name: res.name,
 				image_url: res.image_url,
 				reservations: res.reservations,
 				partySizes: res.reservations.map( slot => {return slot.people} ),
-				times: res.reservations.map( slot => {return slot.time} ),
+				times: res.reservations.map( slot => {return moment(slot.time).format('LT')} ),
 				categories: res.categories.map( slot => {return slot.title} )
 			};
 
