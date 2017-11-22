@@ -1,7 +1,7 @@
 //Dependencies
 const axios = require('axios');
 // const config = require('config.js');
-const Promise = require('bluebird');
+// const Promise = require('bluebird');
 
 const accountSid ='Account Number would go here';
 const authToken = 'Would be taken from config';

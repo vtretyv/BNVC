@@ -1,7 +1,6 @@
 //Dummy Data
 
-let massagedDataYelp = {
-    "businesses": [
+let massagedDataYelp = [
         {
             "id": "fog-harbor-fish-house-san-francisco-2",
             "name": "Fog Harbor Fish House",
@@ -197,10 +196,10 @@ let massagedDataYelp = {
                 "people": 4}]
         }
     ]
-}
 
 
-let rawDataYelp = [
+let rawDataYelp = {
+    "businesses": [
         {
             "id": "fog-harbor-fish-house-san-francisco-2",
             "name": "Fog Harbor Fish House",
@@ -377,14 +376,12 @@ let rawDataYelp = [
             "distance": 5428.156706690052
         }
     ]
-
+}
 
 
 
 
 module.exports = {
-    rawDataOP: rawDataOP,
-    massagedDataOP:massagedDataOP,
     rawDataYelp:rawDataYelp,
     massagedDataYelp:massagedDataYelp
 }
