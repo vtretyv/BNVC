@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const PORT = 3000;
 const sampleData = require('../sampleData/sampleData.js')
 const yelp = require('../helpers/yelpApi.js');
-const twilio = require('../helpers/twilioApi.js');
+//const twilio = require('../helpers/twilioApi.js');
 const _ = require('underscore');
 const moment = require('moment');
 
