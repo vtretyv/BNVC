@@ -39,14 +39,14 @@ client.query(`CREATE TABLE IF NOT EXISTS reservations (
   status BOOLEAN DEFAULT FALSE
 )`);
 
-client.query('INSERT INTO reservations VALUES (DEFAULT, 16, \'now\', 15, DEFAULT, DEFAULT) RETURNING *')
-  .then((results) => {
-    console.log(`reservations has something in it: ${JSON.stringify(results.rows, null, 2)}`);
-  });
+// client.query('INSERT INTO reservations VALUES (DEFAULT, 16, \'now\', 15, DEFAULT, DEFAULT) RETURNING *')
+//   .then((results) => {
+//     console.log(`reservations has something in it: ${JSON.stringify(results.rows, null, 2)}`);
+//   });
 
 
-const SEED_SAMPLE_DATA = () => {
-  sampleData.massagedDataYelp.businesses.forEach((example) => {
+const SEED_SAMPLE_DATA = (data) => {
+  data.forEach((example) => {
     Promise.resolve(client.query(
       `
       INSERT 
@@ -55,13 +55,13 @@ const SEED_SAMPLE_DATA = () => {
       [example.name, example.categories[0].title, example.location.address1 + ' ' + example.location.address2 + ' ' + example.location.address3, example.location.city, example.location.state, example.location.zip_code, example.url, example.image_url, example.display_phone, example.review_count, example.rating]
     ))
     .then((resultingID) => {
-    console.log(`the id of last restaurant inserted was: ${JSON.stringify(resultingID.rows, null, 2)}`);
-    console.log('this posts after a restaurant is entered');
+    // console.log(`the id of last restaurant inserted was: ${JSON.stringify(resultingID.rows, null, 2)}`);
+    // console.log('this posts after a restaurant is entered');
     example.reservations.forEach(booking => {
       // console.log(JSON.stringify(booking));
       let vals = [resultingID.rows[0].id, booking.time, booking.people];
-      console.log('this posts after a reservation is created/inserted');
-      console.log('booking data =', JSON.stringify(vals));
+      // console.log('this posts after a reservation is created/inserted');
+      // console.log('booking data =', JSON.stringify(vals));
         // Promise.resolve(client.query(`INSERT INTO reservations VALUES
         // (DEFAULT, 16, 'now', 15, DEFAULT, DEFAULT)`))
         client.query(`
@@ -79,7 +79,7 @@ const SEED_SAMPLE_DATA = () => {
 };
 
 
-SEED_SAMPLE_DATA();
+// SEED_SAMPLE_DATA(sampleData.massagedDataYelp.businesses);
 
 // Promise.resolve(SEED_SAMPLE_DATA())
 //   .then(() => {
@@ -96,4 +96,7 @@ SEED_SAMPLE_DATA();
 //       });
 //   });
 
-
+module.exports = {
+  client,
+  SEED_SAMPLE_DATA,
+};

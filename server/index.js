@@ -7,13 +7,15 @@ const yelp = require('../helpers/yelpApi.js');
 //const twilio = require('../helpers/twilioApi.js');
 const _ = require('underscore');
 const moment = require('moment');
+const {client, SEED_SAMPLE_DATA} = require('../database/index.js');
 
 
 app.use(express.static(__dirname + '/../client/dist'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-
+SEED_SAMPLE_DATA(sampleData.massagedDataYelp.businesses);
+console.log('data has been seeded');
 
 app.get('/data', (req, res) => {
 	// Route for initial seeding of the client on startup
