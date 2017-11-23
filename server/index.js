@@ -1,20 +1,21 @@
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
-const PORT = 3000;
-const sampleData = require('../sampleData/sampleData.js')
-const yelp = require('../helpers/yelpApi.js');
-//const twilio = require('../helpers/twilioApi.js');
+const sampleData = require('../sampleData/sampleData.js');
+// const yelp = require('../helpers/yelpApi.js');
+// const twilio = require('../helpers/twilioApi.js');
 const _ = require('underscore');
+const path = require('path');
 const moment = require('moment');
-const {client, SEED_SAMPLE_DATA} = require('../database/index.js');
+const { client, SEED_NEW_CITY } = require('../database/index.js');
 
+const PORT = 3000;
+const app = express();
 
-app.use(express.static(__dirname + '/../client/dist'));
+app.use(express.static(path.join(__dirname, '/../client/dist')));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-SEED_SAMPLE_DATA(sampleData.massagedDataYelp.businesses);
+SEED_NEW_CITY(sampleData.massagedDataYelp.businesses);
 console.log('data has been seeded');
 
 app.get('/data', (req, res) => {
@@ -96,4 +97,4 @@ app.get('/phone', (req, res) => {
 
 
 
-app.listen(PORT, () => { console.log(`Server listening on port ${PORT}`) })
+app.listen(PORT, () => { console.log(`Server listening on port ${PORT}`) });
