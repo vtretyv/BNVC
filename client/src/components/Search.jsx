@@ -1,31 +1,33 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import PhoneNumber from './PhoneNumber.jsx';
 import Restaurant from './Restaurant.jsx';
 import FilterMenu from './FilterMenu.jsx';
 
-
-class Search extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div>
-       <PhoneNumber onPhoneNumberSubmitClick={this.props.onPhoneNumberSubmitClick}/>
-        <br/>
-       <Restaurant onRestaurantSubmitClick={this.props.onRestaurantSubmitClick} />
-        <br/>
-       <FilterMenu times={this.props.times}
-                   partySizes={this.props.partySizes}
-                   categories={this.props.categories} 
-                   onFilterSubmitClick={this.props.onFilterSubmitClick} />
-        <br/>
-      </div>
-    );
-  }
-}
+const Search = props =>
+  (
+    <div>
+      <PhoneNumber onPhoneNumberSubmitClick={props.onPhoneNumberSubmitClick} />
+      <br />
+      <Restaurant onRestaurantSubmitClick={props.onRestaurantSubmitClick} />
+      <br />
+      <FilterMenu
+        times={props.times}
+        partySizes={props.partySizes}
+        categories={props.categories}
+        onFilterSubmitClick={props.onFilterSubmitClick}
+      />
+      <br />
+    </div>
+  );
 
 export default Search;
 
-//Todo make search functional
+Search.propTypes = {
+  times: PropTypes.arrayOf(PropTypes.string).isRequired,
+  partySizes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  categories: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onPhoneNumberSubmitClick: PropTypes.func.isRequired,
+  onRestaurantSubmitClick: PropTypes.func.isRequired,
+  onFilterSubmitClick: PropTypes.func.isRequired,
+};

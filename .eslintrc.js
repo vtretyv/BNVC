@@ -6,5 +6,9 @@
  */
 
 module.exports = {
-  "extends": ["airbnb-bundle"]
+  "extends": ["airbnb-bundle"],
+  "env": {
+    "browser": true,
+    "node": true
+  },
 };

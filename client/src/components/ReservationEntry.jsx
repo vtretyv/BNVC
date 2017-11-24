@@ -1,22 +1,20 @@
 import React from 'react';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 
-class ReservationEntry extends React.Component {
-	constructor(props) {
-		super(props)
+const ReservationEntry = props =>
+  (
+    <div key={props.reservation.time}>
+    Reservation Time:{moment(props.reservation.time).format('LT')}<br />
+    Party Size: {props.reservation.people}
+      <button>Accept</button>
+    </div>);
 
+export default ReservationEntry;
 
-
-	}
-
-
-	render() {
-			return (   <div key={this.props.reservation.time}>
-		              Reservation Time:{moment(this.props.reservation.time).format('LT')}<br/>
-		              Party Size: {this.props.reservation.people}
-		              <button>Accept</button>
-		            </div>);
-	}
-}
-
-export default ReservationEntry
+ReservationEntry.propTypes = {
+  reservation: PropTypes.shape({
+    time: PropTypes.string,
+    people: PropTypes.number,
+  }).isRequired,
+};
