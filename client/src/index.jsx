@@ -90,7 +90,7 @@ class App extends React.Component {
       category,
     });
 
-    console.log(time, party, category);
+    // console.log(time, party, category);
   }
 
 
@@ -103,7 +103,7 @@ class App extends React.Component {
   }
 
   filterData() {
-    console.log(this.state.data);
+    // console.log(this.state.data);
 
     // Object used to simplify the filtering process
     // Keys are properties located on each restaurant object
@@ -117,18 +117,17 @@ class App extends React.Component {
     };
 
     let filteredData = this.state.data.slice(0);
-    console.log('FILTERED DATA BEFORE ', filteredData);
+    // console.log('FILTERED DATA BEFORE ', filteredData);
 
     _.forEach(filters, (filter, key) => {
-      console.log(filter);
+      // console.log(filter);
       if (filter !== 'All') {
-        filteredData = _.filter(filteredData, (restaurant) => {
-          return (restaurant[key].includes(filter));
-        });
+        filteredData = _.filter(filteredData, restaurant =>
+          restaurant[key].includes(filter));
       }
     });
 
-    console.log('filtered Data after', filteredData);
+    // console.log('filtered Data after', filteredData);
     return filteredData;
   }
 
@@ -136,7 +135,6 @@ class App extends React.Component {
     return (
       <div>
         <Search
-          restaurantData={this.state.data}
           times={this.state.times}
           partySizes={this.state.partySizes}
           categories={this.state.categories}

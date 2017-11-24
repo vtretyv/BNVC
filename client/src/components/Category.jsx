@@ -1,5 +1,5 @@
-import React from 'react';
+// import React from 'react';
 
-//todo make this render the category component
+// // todo make this render the category component
 
-export default Category;
+// export default Category;
