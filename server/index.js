@@ -66,17 +66,19 @@ app.get('/data', (request, response) => {
 });
 
 
-app.get('/data/city', (req, res) => {
+app.post('/data/city', (req, res) => {
   // Route for getting restaurants for particular city
 
   // Check visited cities array to see if we have already found it
+  if (VISITED_CITIES.indexOf(req.body.city) < 0) {
+    // query api
+    var data = sampleData.massagedDataYelp.businesses;
+  } else {
+    // query db
+    var data = sampleData.massagedDataYelp.businesses;
+  }
 
-  // if no in there, use yelp to get data
-  // massage data and return to client
-
-  // query database and return to client
-
-  res.send();
+  res.send(data);
 });
 
 

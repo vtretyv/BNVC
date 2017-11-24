@@ -22,7 +22,7 @@ class App extends React.Component {
     this.onAcceptClick = this.onAcceptClick.bind(this);
     this.onFilterSubmitClick = this.onFilterSubmitClick.bind(this);
     this.onPhoneNumberSubmitClick = this.onPhoneNumberSubmitClick.bind(this);
-    this.onRestaurantSubmitClick = this.onRestaurantSubmitClick.bind(this);
+    this.onCitySubmitClick = this.onCitySubmitClick.bind(this);
   }
 
   componentWillMount() {
@@ -77,8 +77,22 @@ class App extends React.Component {
     // query db for reservations with this phone number
   }
 
-  onRestaurantSubmitClick(restaurant, city) {
+  onCitySubmitClick(restaurant, city) {
     console.log(restaurant, city);
+    const self = this;
+    axios.post('data/city', { city: city })
+    .then( res => {
+      self.setState({
+        data: res.data
+      })
+    })
+    .catch( err => {
+      throw err;
+    });
+
+
+
+
     // use api to retrieve new data for the city or restaurant
   }
 
@@ -139,7 +153,7 @@ class App extends React.Component {
           partySizes={this.state.partySizes}
           categories={this.state.categories}
           onPhoneNumberSubmitClick={this.onPhoneNumberSubmitClick}
-          onRestaurantSubmitClick={this.onRestaurantSubmitClick}
+          onCitySubmitClick={this.onCitySubmitClick}
           onFilterSubmitClick={this.onFilterSubmitClick}
         />
 

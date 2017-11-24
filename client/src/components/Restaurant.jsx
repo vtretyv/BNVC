@@ -21,12 +21,6 @@ class Restaurant extends React.Component {
   render() {
     return (
       <div>
-        Restaurant:
-        <input
-          type="text"
-          name="restaurant"
-          onChange={this.onStateChange}
-        />
           City:
         <input
           type="text"
@@ -34,10 +28,18 @@ class Restaurant extends React.Component {
           onChange={this.onStateChange}
         />
         <button onClick={() =>
-          this.props.onRestaurantSubmitClick(this.state.restaurant, this.state.city)}
+          this.props.onCitySubmitClick(this.state.restaurant, this.state.city)}
         >
           Submit
         </button>
+        <div>
+          Restaurant:
+          <input
+            type="text"
+            name="restaurant"
+            onChange={this.onStateChange}
+          />
+        </div>
       </div>);
   }
 }
@@ -45,5 +47,5 @@ class Restaurant extends React.Component {
 export default Restaurant;
 
 Restaurant.propTypes = {
-  onRestaurantSubmitClick: PropTypes.func.isRequired,
+  onCitySubmitClick: PropTypes.func.isRequired,
 };
