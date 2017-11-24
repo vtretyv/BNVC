@@ -35,27 +35,25 @@ const authToken = 'Would be taken from config';
 // }
 
 // TWILIO NUMBER: +18312788033
-let sendAcceptMsg = ()=>{
-    //Returns a promise
-    return  client.messages
-            .create({
-            to: '',
-            from: '+18312788033',
-            body: 'Your reservation at RESTAURANT NAME at TIME is booked',
-            })
-}
+const sendAcceptMsg = ()=>{
+  return  client.messages
+    .create({
+      to: '',
+      from: '+18312788033',
+      body: 'Your reservation at RESTAURANT NAME at TIME is booked',
+    });
+};
 
-let sendCancelMsg = ()=>{
-    //Returns a promise
-    return  client.messages
-            .create({
-            to: '',
-            from: '+18312788033',
-            body: 'Your reservation at RESTAURANT NAME at TIME is cancelled',
-            })
-}
+const sendCancelMsg = () => {
+  return  client.messages
+    .create({
+      to: '',
+      from: '+18312788033',
+      body: 'Your reservation at RESTAURANT NAME at TIME is cancelled',
+    });
+};
 
 module.exports = {
-    sendAcceptMsg:sendAcceptMsg,
-    sendCancelMsg:sendCancelMsg
-}
+  sendAcceptMsg:sendAcceptMsg,
+  sendCancelMsg:sendCancelMsg
+};
