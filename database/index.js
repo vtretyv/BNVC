@@ -1,11 +1,10 @@
 const postgres = require('pg');
-// const sampleData = require('../sampleData/sampleData.js');
+const moment = require('moment');
 
 const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/tableopen';
 
 const client = new postgres.Client({
   connectionString,
-  // connectionString: connectionString,
   // ssl: true
 });
 
@@ -39,6 +38,40 @@ client.query(`CREATE TABLE IF NOT EXISTS reservations (
   status BOOLEAN DEFAULT FALSE
 )`);
 
+const fakeReservationGenerator = (restaurantId) => {
+  // create 1-3 fake reservations
+  const reservationCount = Math.ceil(Math.random() * 3);
+  for (let i = 0; i < reservationCount; i += 1) {
+    // first, randomly generate the party size for this reservation
+    const partySizeCalculator = Math.ceil(Math.random() * 6);
+    let partySize = null;
+    // reservations with parties of 2 and 4 are twice as likely as parties of 6 and 8
+    if (partySizeCalculator < 3) {
+      partySize = 2;
+    } else if (partySizeCalculator < 5) {
+      partySize = 4;
+    } else if (partySizeCalculator < 6) {
+      partySize = 6;
+    } else {
+      partySize = 8;
+    }
+
+    // second, generate the start time for this reservation
+    const reservationTimeCalculator = Math.ceil(Math.random() * 6) + Math.ceil(Math.random() * 6);
+    // reservations start anywhere between 5pm and 10pm
+    // 7:30pm is the most common start time
+    const reservationTime = moment().startOf('day').add(16 + (reservationTimeCalculator * 0.5), 'hours');
+
+    // fianlly, insert this reservation into 'reservations' table in DB
+    client.query(
+      `
+      INSERT INTO reservations
+      VALUES (DEFAULT, $1, $2, $3, DEFAULT, DEFAULT)`,
+      [restaurantId, reservationTime, partySize]
+    );
+  }
+};
+
 const SEED_NEW_CITY = (data) => {
   data.forEach((example) => {
     Promise.resolve(client.query(
@@ -49,27 +82,14 @@ const SEED_NEW_CITY = (data) => {
       [example.name, example.categories[0].title, example.location.address1 + ' ' + example.location.address2 + ' ' + example.location.address3, example.location.city, example.location.state, example.location.zip_code, example.url, example.image_url, example.display_phone, example.review_count, example.rating]
     ))
       .then((resultingID) => {
-        example.reservations.forEach((booking) => {
-          const reservationInfo = [resultingID.rows[0].id, booking.time, booking.people];
-          client.query(
-            `
-            INSERT INTO reservations
-            VALUES (DEFAULT, $1, $2, $3, DEFAULT, DEFAULT)`,
-            reservationInfo,
-          );
-        });
-        // client.query(" INSERT INTO restaurants VALUES (DEFAULT, ${name}, ${categories[0].title},
-        // ${location.address1 + location.address2 + location.address3}, ${location.city},
-        // ${location.state}, ${location.zip_code}, ${url}, ${image_url}, ${display_phone},
-        // ${review_count}, ${rating})", example);
+        fakeReservationGenerator(resultingID.rows[0].id);
       });
   });
 };
 
-
-// SEED_NEW_CITY(sampleData.massagedDataYelp.businesses);
-
-// 'SELECT restaurants.name, reservations.time, reservations.party_size FROM reservations, restaurants WHERE reservations.restaurant_id = restaurants.id'
+/* use the following query in psql to check that DB is loaded properly:
+  SELECT restaurants.name, reservations.time, reservations.party_size FROM reservations, restaurants WHERE reservations.restaurant_id = restaurants.id;
+*/
 
 module.exports = {
   client,
