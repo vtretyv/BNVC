@@ -10,6 +10,7 @@ const config = require('./config.js');
 // headers: {
 //   authorization: 'Bearer <access_token>?'
 // }
+<<<<<<< 8d66ddc8742de8751926e483ed3f108fd67c5c52
 
 // Now, use this header to make GET reqeusts to the following URL:
 // https://api.yelp.com/v3/businesses/search?location=San+Francisco&term=restaurants
@@ -44,6 +45,44 @@ const getRestaurantInCity = (Restaurant, City) => {
   const parsedRes = restaurantArr.join('+');
   return axios.get(`https://api.yelp.com/v3/businesses/search?location=${parsedCity}&term=${parsedRes}`, yelpHeaders);
 };
+=======
+//Use this to make GET reqeusts to the URL https://api.yelp.com/v3/businesses/search?location=San+Francisco&term=restaurants
+//
+
+// let access = config.YELP_ACCESS_TOKEN;
+let yelpHeaders = {
+    headers:{
+    // Authorization: `Bearer ${access}`
+    }
+}
+
+
+
+//returns a promise
+let getRestaurantsByCity = (cityAndState = "San Francisco")=> {
+    let cityState = cityAndState.split(',');
+    let city = cityState[0];
+    let state = cityState[1];
+    let cityArr = city.split(' ');
+    let parsedCity = cityArr.join('+');
+    let pCandS = '';    
+    if (state === undefined){
+        pCandS = parsedCity;
+    } else {
+        pCandS = `${parsedCity},+${state}`;
+        
+    }
+    return axios.get(`https://api.yelp.com/v3/businesses/search?location=${pCandS}&term=restaurants`, yelpHeaders);
+}
+
+let getRestaurantInCity = (Restaurant, City)=> {
+    let cityArr = City.split(' ');
+    let parsedCity = cityArr.join('+');
+    let restaurantArr = Restaurant.split(' ');
+    let parsedRes = restaurantArr.join('+');
+    return axios.get(`https://api.yelp.com/v3/businesses/search?location=${parsedCity}&term=${parsedRes}`, yelpHeaders);
+}
+>>>>>>> Added tests, working on heorku remote launch
 
 module.exports = {
   getRestaurantsByCity,
