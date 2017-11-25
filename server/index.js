@@ -5,7 +5,13 @@ const yelp = require('../helpers/yelpApi.js');
 const _ = require('underscore');
 const path = require('path');
 const moment = require('moment');
+<<<<<<< 64583a8abafb406d827482d6078a9035b51f2628
 const { seedNewCity, queryCity } = require('../database/index.js');
+=======
+const { client, SEED_NEW_CITY } = require('../database/index.js');
+const pg = require('pg');
+
+>>>>>>> added pg
 
 const PORT = 3000;
 const app = express();
@@ -143,6 +149,18 @@ app.get('/data', (req, res) => {
 	res.send(data);
 })
 
+
+app.get('/db', function (request, response) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT * FROM test_table', function(err, result) {
+      done();
+      if (err)
+       { console.error(err); response.send("Error " + err); }
+      else
+       { response.render('pages/db', {results: result.rows} ); }
+    });
+  });
+});
 
 app.get('/data/city', (req, res) => {
 	// Route for getting restaurants for particular city
