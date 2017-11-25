@@ -23,7 +23,7 @@ client.query(`CREATE TABLE IF NOT EXISTS restaurants (
   url VARCHAR(255),
   image VARCHAR(255),
   phone VARCHAR(255),
-  reviews INT,
+  reviewCount INT,
   rating DECIMAL
 )`);
 
@@ -35,10 +35,12 @@ client.query(`CREATE TABLE IF NOT EXISTS reservations (
   time VARCHAR(255),
   party_size INT,
   customer_id INT DEFAULT NULL,
-  status BOOLEAN DEFAULT FALSE
+  isReservationBooked BOOLEAN DEFAULT FALSE
 )`);
 
 const fakeReservationGenerator = (restaurantId) => {
+  const reservations = [];
+
   // create 1-3 fake reservations
   const reservationCount = Math.ceil(Math.random() * 3);
   for (let i = 0; i < reservationCount; i += 1) {
@@ -63,35 +65,61 @@ const fakeReservationGenerator = (restaurantId) => {
     const reservationTime = moment().startOf('day').add(16 + (reservationTimeCalculator * 0.5), 'hours');
 
     // fianlly, insert this reservation into 'reservations' table in DB
-    client.query(
+    reservations.push(client.query(
       `
       INSERT INTO reservations
       VALUES (DEFAULT, $1, $2, $3, DEFAULT, DEFAULT)`,
       [restaurantId, reservationTime, partySize]
-    );
+    ));
   }
+
+  return Promise.all(reservations);
 };
 
-const SEED_NEW_CITY = (data) => {
-  data.forEach((example) => {
-    Promise.resolve(client.query(
-      `
-      INSERT 
-      INTO restaurants 
-      VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id`,
-      [example.name, example.categories[0].title, example.location.address1 + ' ' + example.location.address2 + ' ' + example.location.address3, example.location.city, example.location.state, example.location.zip_code, example.url, example.image_url, example.display_phone, example.review_count, example.rating]
-    ))
-      .then((resultingID) => {
-        fakeReservationGenerator(resultingID.rows[0].id);
+const seedNewCity = (data) => {
+  const restaurants = data.map((restaurant) => {
+    return new Promise((resolve, reject) => {
+      Promise.resolve(client.query(
+        `
+        INSERT 
+        INTO restaurants 
+        VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id`,
+        [restaurant.name, restaurant.categories[0].title, restaurant.location.address1 + ' ' + restaurant.location.address2 + ' ' + restaurant.location.address3, restaurant.location.city, restaurant.location.state, restaurant.location.zip_code, restaurant.url, restaurant.image_url, restaurant.display_phone, restaurant.review_count, restaurant.rating]
+      ))
+        .then((resultingID) => {
+          fakeReservationGenerator(resultingID.rows[0].id)
+            .then((res) => {
+              resolve(res);
+            })
+            .catch((err) => {
+              reject(err);
+            });
+        });
+    });
+  });
+  return Promise.all(restaurants);
+};
+
+const queryCity = () => {
+  return new Promise((resolve, reject) => {
+    Promise.resolve(client.query(`
+      SELECT restaurants.name, restaurants.category, restaurants.image, reservations.id, reservations.time, reservations.party_size FROM reservations, restaurants WHERE reservations.restaurant_id = restaurants.id`))
+      .then((results) => {
+        resolve(results);
+      })
+      .catch((err) => {
+        reject(err);
       });
   });
 };
 
 /* use the following query in psql to check that DB is loaded properly:
   SELECT restaurants.name, reservations.time, reservations.party_size FROM reservations, restaurants WHERE reservations.restaurant_id = restaurants.id;
+  SELECT restaurants.name, restaurants.category, restaurants.image, reservations.id, reservations.time, reservations.party_size FROM reservations, restaurants WHERE reservations.restaurant_id = restaurants.id;
 */
 
 module.exports = {
   client,
-  SEED_NEW_CITY,
+  seedNewCity,
+  queryCity,
 };
