@@ -1,0 +1,8 @@
+{
+  "name": "Table Open",
+  "description": "An Open Table Clone",
+  "repository": "https://github.com/BNVC/BNVC",
+  "logo": "",
+  "keywords": ["node", "express", "heroku"],
+  "image": "heroku/nodejs"
+}
