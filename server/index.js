@@ -151,8 +151,8 @@ app.get('/data', (req, res) => {
 
 
 app.get('/db', function (request, response) {
-  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * FROM test_table', function(err, result) {
+  pg.connect(process.env['postgres://gebhgwtsoohazn:56b2a9608a19a5542979873fdb6f96980b946f646f4007772bab623f37a0b8dc@ec2-54-235-120-39.compute-1.amazonaws.com:5432/dc1vso66drul9d'], function(err, client, done) {
+    client.query('SELECT * FROM restaurants', function(err, result) {
       done();
       if (err)
        { console.error(err); response.send("Error " + err); }
