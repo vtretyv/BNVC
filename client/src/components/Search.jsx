@@ -9,7 +9,7 @@ const Search = props =>
     <div>
       <PhoneNumber onPhoneNumberSubmitClick={props.onPhoneNumberSubmitClick} />
       <br />
-      <Restaurant onRestaurantSubmitClick={props.onRestaurantSubmitClick} />
+      <Restaurant onCitySubmitClick={props.onCitySubmitClick} />
       <br />
       <FilterMenu
         times={props.times}
@@ -28,6 +28,6 @@ Search.propTypes = {
   partySizes: PropTypes.arrayOf(PropTypes.string).isRequired,
   categories: PropTypes.arrayOf(PropTypes.string).isRequired,
   onPhoneNumberSubmitClick: PropTypes.func.isRequired,
-  onRestaurantSubmitClick: PropTypes.func.isRequired,
+  onCitySubmitClick: PropTypes.func.isRequired,
   onFilterSubmitClick: PropTypes.func.isRequired,
 };

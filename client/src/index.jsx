@@ -4,6 +4,7 @@ import axios from 'axios';
 import _ from 'underscore';
 import Search from './components/Search.jsx';
 import AvailableReservations from './components/AvailableReservations.jsx';
+import Myreservations from './components/Myreservations.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class App extends React.Component {
       times: [],
       partySizes: [],
       categories: [],
-      // reservations: [],
+      myReservations: [1, 2, 3, 4, 5],
       // filter: true,
       time: 'All',
       party: 'All',
@@ -22,7 +23,7 @@ class App extends React.Component {
     this.onAcceptClick = this.onAcceptClick.bind(this);
     this.onFilterSubmitClick = this.onFilterSubmitClick.bind(this);
     this.onPhoneNumberSubmitClick = this.onPhoneNumberSubmitClick.bind(this);
-    this.onRestaurantSubmitClick = this.onRestaurantSubmitClick.bind(this);
+    this.onCitySubmitClick = this.onCitySubmitClick.bind(this);
   }
 
   componentWillMount() {
@@ -77,8 +78,19 @@ class App extends React.Component {
     // query db for reservations with this phone number
   }
 
-  onRestaurantSubmitClick(restaurant, city) {
+  onCitySubmitClick(restaurant, city) {
     console.log(restaurant, city);
+    const self = this;
+    axios.post('data/city', {city: city})
+      .then((res) => {
+        self.setState({
+          data: res.data
+        });
+      })
+      .catch((err) => {
+        throw err;
+      });
+
     // use api to retrieve new data for the city or restaurant
   }
 
@@ -139,16 +151,18 @@ class App extends React.Component {
           partySizes={this.state.partySizes}
           categories={this.state.categories}
           onPhoneNumberSubmitClick={this.onPhoneNumberSubmitClick}
-          onRestaurantSubmitClick={this.onRestaurantSubmitClick}
+          onCitySubmitClick={this.onCitySubmitClick}
           onFilterSubmitClick={this.onFilterSubmitClick}
         />
-
-        <AvailableReservations
-          restaurantData={this.filterData()}
-          onAcceptClick={this.onAcceptClick}
-          time={this.state.time}
-          party={this.state.party}
-        />
+        <div className="main">
+          <AvailableReservations
+            restaurantData={this.filterData()}
+            onAcceptClick={this.onAcceptClick}
+            time={this.state.time}
+            party={this.state.party}
+          />
+          <Myreservations reservations={this.state.myReservations} />
+        </div>
       </div>
     );
   }

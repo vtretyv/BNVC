@@ -1,0 +1,15 @@
+.main {
+	display: inline-flex;
+}
+
+.myReservations {
+	margin-left: 20px;
+}
+
+.availableReservations {
+
+}
+
+ul {
+	list-style-type: none;
+}
