@@ -21,7 +21,7 @@ class Restaurant extends React.Component {
   render() {
     return (
       <div>
-          City:
+        City:
         <input
           type="text"
           name="city"
@@ -33,12 +33,14 @@ class Restaurant extends React.Component {
           Submit
         </button>
         <div>
+          <br />
           Restaurant:
           <input
             type="text"
             name="restaurant"
             onChange={this.onStateChange}
           />
+          <button>Search</button>
         </div>
       </div>);
   }

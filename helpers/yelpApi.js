@@ -33,7 +33,7 @@ const getRestaurantsByCity = (cityAndState = 'San Francisco') => {
   } else {
     pCandS = `${parsedCity},+ ${state}`;
   }
-  return axios.get(`https://api.yelp.com/v3/businesses/search?location=${pCandS}&term=restaurants`, yelpHeaders);
+  return axios.get(`https://api.yelp.com/v3/businesses/search?location=${pCandS}&term=restaurants&limit=50`, yelpHeaders);
 };
 
 const getRestaurantInCity = (Restaurant, City)=> {

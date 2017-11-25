@@ -19,25 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 SEED_NEW_CITY(sampleData.massagedDataYelp.businesses);
 
 app.get('/data', (request, response) => {
-  // Route for initial seeding of the client on startup
-
-  // massages data to include all keys mentioned
-  // massages times, partysizes, and categories into on array each
-  // to be sent back to client
-  // This allows for easier parsing of the data in the filter dropdowns
-
-
-  // let data = _.map(sampleData.massagedDataYelp.businesses, (res) => {
-  //   return output = {
-  //     name: res.name,
-  //     image_url: res.image_url,
-  //     reservations: res.reservations,
-  //     partySizes: res.reservations.map( (slot) => {return slot.people} ),
-  //     times: res.reservations.map( (slot) => {return moment(slot.time).format('LT')} ),
-  //     categories: res.categories.map( (slot) => {return slot.title} )
-  //   };
-  // });
-
+  // GETS SF DATA AS INITIAL SEED
   yelp.getRestaurantsByCity()
     .then((results) => {
       const reservations = [{
@@ -48,6 +30,8 @@ app.get('/data', (request, response) => {
         people: 3
       }
       ];
+
+      
       const data = _.map(results.data.businesses, (res) => {
         const output = {
           name: res.name,
@@ -59,6 +43,8 @@ app.get('/data', (request, response) => {
         };
         return output;
       });
+
+
       response.send(data);
     }).catch((err) => {
       console.log('error', err);
@@ -71,21 +57,38 @@ app.post('/data/city', (req, res) => {
 
   // Check visited cities array to see if we have already found it
   if (VISITED_CITIES.indexOf(req.body.city) < 0) {
-    // query api
     var data = sampleData.massagedDataYelp.businesses;
-  } else {
-    // query db
-    var data = sampleData.massagedDataYelp.businesses;
-  }
+    yelp.getRestaurantsByCity(req.body.city)
+      .then((result) => {
 
-  res.send(data);
+        // run result.data.businesses through massager
+        // add to city array in server
+        // input into db
+        // retrieve from db
+        // send to client
+
+        console.log(result);
+        res.send(data);
+      })
+      .catch((err) => {
+        throw err;
+      });
+
+  } else {
+    var data = sampleData.massagedDataYelp.businesses;
+    // retrieve from db
+    // send to client
+    res.send(data);
+  }
 });
 
 
 app.post('/book', (req, res) => {
   // Route for booking a reservation
 
-  // change database
+  // req.body should contain a reservation id, and phone number
+
+  // add phone number to reservation 
 
   res.send();
 });
@@ -93,8 +96,9 @@ app.post('/book', (req, res) => {
 app.put('/cancel', (req, res) => {
   // Route for canceling a reservation (updating records)
 
-  // twillio
-  // db
+  // req.body should contain a reservation id
+
+  // remove phone number from reservation 
 
   res.send();
 });
@@ -103,8 +107,11 @@ app.put('/cancel', (req, res) => {
 app.get('/phone', (req, res) => {
   // Route for getting reservations for phone number
 
-  // twillio
-  // db
+  // req.body sould contain phone number
+
+  //query db for all reservations linked to PN
+
+  // send back array of reservaitons
 
   res.send();
 });
