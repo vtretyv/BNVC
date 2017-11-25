@@ -29,16 +29,22 @@ const seedParialData = (location, pageNumber) => new Promise((resolve, reject) =
     .catch(err => reject(err));
 });
 
-const SEED = () => {
+const SEED = (location = 'San Francisco, CA') => {
   const completeCityData = [];
   for (let i = 0; i < 20; i += 1) {
-    completeCityData.push(seedParialData('San Francisco, CA', i));
+    completeCityData.push(seedParialData(location, i));
   }
   Promise.all(completeCityData)
-    .then(results => console.log('this is how many places we are eating at TONIGHT MOTHERFUCKER: ', cityData.length));
+    .then(() => {
+    	seedNewCity(cityData);
+    	console.log(`Number of restaurants in DB for ${location}: ', ${cityData.length}`);
+  });
 };
 
-SEED();
+Promise.resolve(SEED())
+  .then(() => {
+    console.log('go check the DB for SF');
+  });
 
 // const cityData = [];
 // Promise.resolve(yelp.getRestaurantsByCity('San Francisco, CA', i))
