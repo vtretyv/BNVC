@@ -5,13 +5,7 @@ const yelp = require('../helpers/yelpApi.js');
 const _ = require('underscore');
 const path = require('path');
 const moment = require('moment');
-<<<<<<< 64583a8abafb406d827482d6078a9035b51f2628
 const { seedNewCity, queryCity } = require('../database/index.js');
-=======
-const { client, SEED_NEW_CITY } = require('../database/index.js');
-const pg = require('pg');
-
->>>>>>> added pg
 
 const PORT = 3000;
 const app = express();
@@ -21,7 +15,6 @@ app.use(express.static(path.join(__dirname, '/../client/dist')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-<<<<<<< 760b843949ea9248996d630630b1bb3141e3d14d
 // initialize the database with a pull for SF restaurants
 
 let cityData = [];
@@ -112,64 +105,6 @@ app.get('/data', (request, response) => {
       console.log('error', err);
     });
 });
-=======
-SEED_NEW_CITY(sampleData.massagedDataYelp.businesses);
-console.log('data has been seeded');
-
-app.get('/data', (req, res) => {
-	// Route for initial seeding of the client on startup
-
-	// massages data to include all keys mentioned
-	// massages times, partysizes, and categories into on array each
-	// to be sent back to client
-	// This allows for easier parsing of the data in the filter dropdowns
-	let data = _.map(sampleData.massagedDataYelp.businesses, (res) => {
-		
-			return output = {
-				name: res.name,
-				image_url: res.image_url,
-				reservations: res.reservations,
-				partySizes: res.reservations.map( slot => {return slot.people} ),
-				times: res.reservations.map( slot => {return moment(slot.time).format('LT')} ),
-				categories: res.categories.map( slot => {return slot.title} )
-			};
-
-	});
-
-	// yelp.getRestaurantsByCity().then((results)=>{
-	// 	console.log('results.data', results.data);
-	// 	//Do the res.json here once you have the data in the way you want to send it
-	// }).catch(()=>{
-	// 	console.log('error');
-	// })
-
-
-
-	
-	res.send(data);
-})
-
-
-app.get('/db', function (request, response) {
-  pg.connect(process.env['postgres://gebhgwtsoohazn:56b2a9608a19a5542979873fdb6f96980b946f646f4007772bab623f37a0b8dc@ec2-54-235-120-39.compute-1.amazonaws.com:5432/dc1vso66drul9d'], function(err, client, done) {
-    client.query('SELECT * FROM restaurants', function(err, result) {
-      done();
-      if (err)
-       { console.error(err); response.send("Error " + err); }
-      else
-       { response.render('pages/db', {results: result.rows} ); }
-    });
-  });
-});
-
-app.get('/data/city', (req, res) => {
-	// Route for getting restaurants for particular city
-
-	// query database
-
-	res.send();
-})
->>>>>>> added procfile
 
 
 app.post('/book', (req, res) => {
@@ -187,17 +122,7 @@ app.put('/cancel', (req, res) => {
 
   // req.body should contain a reservation id
 
-<<<<<<< 760b843949ea9248996d630630b1bb3141e3d14d
   // remove phone number from reservation 
-=======
-	// twillio
-
-	// twilio.sendCancelMsg().then(()=>{
-	// 	console.log('cancel message sent');
-	// });
-
-	// db
->>>>>>> added procfile
 
   res.send();
 });
@@ -206,16 +131,7 @@ app.put('/cancel', (req, res) => {
 app.get('/phone', (req, res) => {
   // Route for getting reservations for phone number
 
-<<<<<<< 760b843949ea9248996d630630b1bb3141e3d14d
   // req.body sould contain phone number
-=======
-	// twillio
-
-	// twilio.sendAcceptMsg().then(()=>{
-	// 	console.log('accept message sent');
-	// });
-	// db
->>>>>>> added procfile
 
   //query db for all reservations linked to PN
 
