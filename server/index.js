@@ -1,27 +1,83 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const sampleData = require('../sampleData/sampleData.js');
 const yelp = require('../helpers/yelpApi.js');
 // const twilio = require('../helpers/twilioApi.js');
 const _ = require('underscore');
 const path = require('path');
 const moment = require('moment');
-const { client, SEED_NEW_CITY } = require('../database/index.js');
+const { seedNewCity, queryCity } = require('../database/index.js');
 
 const PORT = 3000;
 const app = express();
-let VISITED_CITIES = [];
+let visitedCities = ['San Francisco, CA'];
 
 app.use(express.static(path.join(__dirname, '/../client/dist')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-SEED_NEW_CITY(sampleData.massagedDataYelp.businesses);
+// initialize the database with a pull for SF restaurants
+
+let cityData = [];
+
+const seedParialData = (location, pageNumber) => new Promise((resolve, reject) => {
+  yelp.getRestaurantsByCity(location, pageNumber)
+    .then(partialResults => {
+    	// console.log('this is what comes back from yelp: ', partialResults);
+      cityData = cityData.concat(partialResults.data.businesses);
+      resolve(partialResults);
+    })
+    .catch(err => reject(err));
+});
+
+const SEED = (location = 'San Francisco, CA') => {
+  const completeCityData = [];
+  for (let i = 0; i < 20; i += 1) {
+    completeCityData.push(seedParialData(location, i));
+  }
+  Promise.all(completeCityData)
+    .then(() => {
+    	seedNewCity(cityData);
+    	console.log(`Number of restaurants in DB for ${location}: ', ${cityData.length}`);
+  });
+};
+
+Promise.resolve(SEED())
+  .then(() => {
+    console.log('go check the DB for SF');
+  });
+
+// const cityData = [];
+// Promise.resolve(yelp.getRestaurantsByCity('San Francisco, CA', i))
+//   .then((partialResults) => {
+//   	cityData.push(partialResults);
+//   })
+
+// Promise.all(testArray)
+//   .then((haha) => {
+//     console.log('alooasdfadsf');
+//     console.log(haha);
+//   });
+
 
 app.get('/data', (request, response) => {
-  // GETS SF DATA AS INITIAL SEED
   yelp.getRestaurantsByCity()
-    .then((results) => {
+    .then((yelpResults) => {
+      seedNewCity(yelpResults.data.businesses)
+        .then(() => {
+          queryCity()
+            .then((cityResults) => {
+              response.send(cityResults.rows);
+
+            })
+            .catch((err) => {
+              throw err;
+            });
+        })
+        .catch((err) => {
+          throw err;
+        });
+
+
       const reservations = [{
         time: '2017-11-20T19:30:00Z',
         people: 7
@@ -31,8 +87,7 @@ app.get('/data', (request, response) => {
       }
       ];
 
-      
-      const data = _.map(results.data.businesses, (res) => {
+      const data = _.map(yelpResults.data.businesses, (res) => {
         const output = {
           name: res.name,
           image_url: res.image_url,
@@ -45,41 +100,10 @@ app.get('/data', (request, response) => {
       });
 
 
-      response.send(data);
+      // response.send(data);
     }).catch((err) => {
       console.log('error', err);
     });
-});
-
-
-app.post('/data/city', (req, res) => {
-  // Route for getting restaurants for particular city
-
-  // Check visited cities array to see if we have already found it
-  if (VISITED_CITIES.indexOf(req.body.city) < 0) {
-    var data = sampleData.massagedDataYelp.businesses;
-    yelp.getRestaurantsByCity(req.body.city)
-      .then((result) => {
-
-        // run result.data.businesses through massager
-        // add to city array in server
-        // input into db
-        // retrieve from db
-        // send to client
-
-        console.log(result);
-        res.send(data);
-      })
-      .catch((err) => {
-        throw err;
-      });
-
-  } else {
-    var data = sampleData.massagedDataYelp.businesses;
-    // retrieve from db
-    // send to client
-    res.send(data);
-  }
 });
 
 
@@ -88,7 +112,7 @@ app.post('/book', (req, res) => {
 
   // req.body should contain a reservation id, and phone number
 
-  // add phone number to reservation 
+  // add phone number to reservation and change 
 
   res.send();
 });
